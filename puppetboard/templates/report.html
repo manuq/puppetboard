@@ -90,9 +90,17 @@
 
 <h1>Metrics</h1>
 
-{% for metric in metrics if metric.category == "changes" and metric.name == "total" %}
-<h2>Total changes: {{metric.value}}</h2>
-{% endfor %}
+<h2>Changes</h2>
+<table class="ui basic table compact">
+  <tbody>
+  {% for metric in metrics if metric.category == "changes" and metric.name == "total" %}
+    <tr>
+      <td class="four wide"><strong>{{metric.name}}</strong></td>
+      <td class="two wide"><strong>{{metric.value}}</strong></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
 
 <h2>Events</h2>
 <table class="ui basic table compact">
