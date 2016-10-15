@@ -148,7 +148,7 @@
 </table>
 {%- endmacro %}
 {% macro status_counts(caller, status, node_name, events, current_env, unreported_time=False, report_hash=False) -%}
-  <span class="ui
+  <a class="ui
     {% if status == 'failed' -%}
       failed
     {% elif status == 'changed' -%}
@@ -160,9 +160,10 @@
     {% elif status == 'unchanged' -%}
       unchanged
     {% endif -%}
-  label status">
-    {{ status|upper }}
-  </span>
+  label status" href="
+    {{url_for('report', env=current_env, node_name=node_name, report_id=report_hash)}}
+  "> {{ status|upper }}
+  </a>
     {% if status == 'unreported' %}
       since {{ unreported_time|upper }}
     {% endif %}
