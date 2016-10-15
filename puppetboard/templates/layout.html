@@ -27,17 +27,18 @@
       {%- for endpoint, caption in [
       ('index', 'Overview'),
       ('nodes', 'Nodes'),
-      ('facts', 'Facts'),
+{#      ('facts', 'Facts'), #}
       ('reports', 'Reports'),
       ('metrics', 'Metrics'),
-      ('inventory', 'Inventory'),
-      ('catalogs', 'Catalogs'),
+{#      ('inventory', 'Inventory'), #}
+{#      ('catalogs', 'Catalogs'), #}
       ('radiator', 'Radiator'),
       ('query', 'Query'),
       ] %}
       <a {% if endpoint == request.endpoint %} class="active item" {% else %} class="item" {% endif %}
         href="{{ url_for(endpoint, env=current_env) }}">{{ caption }}</a>
       {%- endfor %}
+{# CUSTOM: remove environment dropdown
       <div class="ui dropdown item">
         {{current_env}}
         <i class="dropdown icon"></i>
@@ -48,6 +49,7 @@
           {% endfor %}
         </div>
       </div>
+#}
       <div class="item right"><a href="https://github.com/voxpupuli/puppetboard" target="_blank">v0.2.0</a></div>
     </div>
     <div class="ui grid padding-bottom">
