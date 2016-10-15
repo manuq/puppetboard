@@ -191,7 +191,7 @@
   {% endif %}
   </div>
 {% endmacro %}
-{% macro nodes_reports(nodes) %}
+{% macro nodes_reports(nodes) -%}
   <table class='ui sortable very compact very basic table'>
     <thead>
       <tr>
@@ -224,4 +224,4 @@
       {% endfor %}
     </tbody>
   </table>
-{% endmacro %}
+{%- endmacro %}
