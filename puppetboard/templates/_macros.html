@@ -206,9 +206,9 @@
       <tr>
         <td>
           {% if node.latest_report_hash %}
-          {{macros.status_counts(status=node.status, node_name=node.name, events=node.events, unreported_time=node.unreported_time, current_env=current_env, report_hash=node.latest_report_hash)}}
+          {% call status_counts(status=node.status, node_name=node.name, events=node.events, unreported_time=node.unreported_time, current_env=current_env, report_hash=node.latest_report_hash) %}{% endcall %}
           {% else %}
-          {{macros.status_counts(status=node.status, node_name=node.name, events=node.events, unreported_time=node.unreported_time, current_env=current_env)}}
+          {% call status_counts(status=node.status, node_name=node.name, events=node.events, unreported_time=node.unreported_time, current_env=current_env) %}{% endcall %}
           {% endif %}
         </td>
         <td>
