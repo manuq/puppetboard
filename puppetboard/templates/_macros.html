@@ -165,7 +165,7 @@
   "> {{ status|upper }}
   </a>
     {% if status == 'unreported' %}
-      since {{ unreported_time|upper }}
+      since {{ unreported_time }}
     {% endif %}
 {%- endmacro %}
 {% macro render_pagination(pagination) -%}
