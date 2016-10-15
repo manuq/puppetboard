@@ -64,38 +64,7 @@
     <div class="column">
       {% if nodes %}
       <h2>Nodes status detail ({{nodes|length}})</h2>
-      <table class='ui sortable very compact very basic table'>
-        <thead>
-          <tr>
-            <th class="five wide">Status</th>
-            <th class="five wide">Certname</th>
-            <th class="five wide date default-sort">Report</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for node in nodes %}
-          {% if node.status != 'unchanged' %}
-          <tr>
-            <td>
-              {% if node.latest_report_hash %}
-                {{macros.status_counts(status=node.status, node_name=node.name, events=node.events, unreported_time=node.unreported_time, current_env=current_env, report_hash=node.latest_report_hash)}}
-              {% else %}
-                {{macros.status_counts(status=node.status, node_name=node.name, events=node.events, unreported_time=node.unreported_time, current_env=current_env)}}
-              {% endif %}
-            </td>
-            <td>
-              <a href="{{url_for('node', env=current_env, node_name=node.name)}}">{{ node.name }}</a>
-            </td>
-            <td>
-              {% if node.report_timestamp %}
-                <a href="{{url_for('report', env=current_env, node_name=node.name, report_id=node.latest_report_hash)}}" rel='utctimestamp'>{{ node.report_timestamp }}</a>
-              {% endif %}
-            </td>
-          </tr>
-          {% endif %}
-          {% endfor %}
-        </tbody>
-      </table>
+      {{ macros.nodes_reports(nodes) }}
       {% else %}
       <h2>Nodes status detail</h2>
       <div class="ui info message">
