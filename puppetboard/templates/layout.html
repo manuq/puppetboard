@@ -24,14 +24,16 @@
       <div class="title item">
         Puppetboard
       </div>
+      {# CUSTOM: removed entries:
+      ('facts', 'Facts'),
+      ('metrics', 'Metrics'),
+      ('inventory', 'Inventory'),
+      ('catalogs', 'Catalogs'),
+      #}
       {%- for endpoint, caption in [
       ('index', 'Overview'),
       ('nodes', 'Nodes'),
-{#      ('facts', 'Facts'), #}
       ('reports', 'Reports'),
-      ('metrics', 'Metrics'),
-{#      ('inventory', 'Inventory'), #}
-{#      ('catalogs', 'Catalogs'), #}
       ('radiator', 'Radiator'),
       ('query', 'Query'),
       ] %}
