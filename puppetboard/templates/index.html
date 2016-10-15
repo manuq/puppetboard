@@ -70,7 +70,6 @@
             <th class="five wide">Status</th>
             <th class="five wide">Certname</th>
             <th class="five wide date default-sort">Report</th>
-            <th class="one wide"></th>
           </tr>
         </thead>
         <tbody>
@@ -92,11 +91,6 @@
                 <a href="{{url_for('report', env=current_env, node_name=node.name, report_id=node.latest_report_hash)}}" rel='utctimestamp'>{{ node.report_timestamp }}</a>
               {% else %}
                 <i class="large ban icon"></i>
-              {% endif %}
-            </td>
-            <td>
-              {% if node.report_timestamp %}
-              <a title='Reports' href="{{url_for('reports_node', env=current_env, node_name=node.name)}}"><i class='large darkblue book icon'></i></a>
               {% endif %}
             </td>
           </tr>
