@@ -89,22 +89,62 @@
 </table>
 
 <h1>Metrics</h1>
+
+{% for metric in metrics if metric.category == "changes" and metric.name == "total" %}
+<h2>Total changes: {{metric.value}}</h2>
+{% endfor %}
+
 <table class="ui basic table compact">
   <thead>
+  {% for metric in metrics if metric.category == "events" and metric.name == "total" %}
     <tr>
-      <th>Category</th>
-      <th>Name</th>
-      <th>Value</th>
-    </tr>
+      <th colspan="2">Events: {{metric.value}}</th>
+    <tr>
+  {% endfor %}
   </thead>
   <tbody>
-    {% for metric in metrics %}
-      <tr>
-        <td>{{metric.category}}</td>
-        <td>{{metric.name}}</td>
-        <td>{{metric.value|round(2)}}</td>
-      </tr>
-    {% endfor %}
+  {% for metric in metrics if metric.category == "events" and metric.name != "total" %}
+    <tr>
+      <td class="four wide">{{metric.name}}</td>
+      <td class="two wide">{{metric.value}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<table class="ui basic table compact">
+  <thead>
+  {% for metric in metrics if metric.category == "resources" and metric.name == "total" %}
+    <tr>
+      <th colspan="2">Resources: {{metric.value}}</th>
+    <tr>
+  {% endfor %}
+  </thead>
+  <tbody>
+  {% for metric in metrics if metric.category == "resources" and metric.name != "total" %}
+    <tr>
+      <td class="four wide">{{metric.name}}</td>
+      <td class="two wide">{{metric.value}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<table class="ui basic table compact">
+  <thead>
+  {% for metric in metrics if metric.category == "time" and metric.name == "total" %}
+    <tr>
+      <th colspan="2">Run time: {{metric.value|round(2)}} seconds</th>
+    <tr>
+  {% endfor %}
+  </thead>
+  <tbody>
+  {% for metric in metrics if metric.category == "time" and metric.name != "total" %}
+    <tr>
+      <td class="four wide">{{metric.name}}</td>
+      <td class="two wide">{{metric.value|round(2)}}</td>
+    </tr>
+  {% endfor %}
   </tbody>
 </table>
 
