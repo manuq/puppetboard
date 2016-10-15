@@ -64,8 +64,7 @@
     <div class="column">
       {% if nodes %}
       <h2>Nodes status detail ({{nodes|length}})</h2>
-      {% set nodes_not_unchanged = nodes|rejectattr("status", "equalto", "unchanged") %}
-      {{ macros.nodes_reports(nodes_not_unchanged) }}
+      {{ macros.nodes_reports(nodes|rejectattr("status", "equalto", "unchanged")) }}
       {% else %}
       <h2>Nodes status detail</h2>
       <div class="ui info message">
