@@ -162,10 +162,10 @@
     {% endif -%}
   label status">
     {{ status|upper }}
+  </span>
     {% if status == 'unreported' %}
       since {{ unreported_time|upper }}
     {% endif %}
-  </span>
 {%- endmacro %}
 {% macro render_pagination(pagination) -%}
   <div class="ui pagination menu">
