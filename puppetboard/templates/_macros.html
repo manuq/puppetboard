@@ -164,7 +164,7 @@
     {{url_for('report', env=current_env, node_name=node_name, report_id=report_hash)}}
   "> {{ status|upper }}
   </a>
-    {% if status == 'unreported' %}
+    {% if status == 'unreported' and unreported_time is not none %}
       since {{ unreported_time }}
     {% endif %}
 {%- endmacro %}
