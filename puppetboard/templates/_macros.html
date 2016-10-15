@@ -200,9 +200,8 @@
         <th class="five wide date default-sort">Report</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="searchable">
       {% for node in nodes %}
-      {% if node.status != 'unchanged' %}
       <tr>
         <td>
           {% if node.latest_report_hash %}
@@ -220,7 +219,6 @@
           {% endif %}
         </td>
       </tr>
-      {% endif %}
       {% endfor %}
     </tbody>
   </table>
