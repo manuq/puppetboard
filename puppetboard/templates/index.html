@@ -87,27 +87,34 @@
 <script src="{{url_for('static', filename='js/c3.min.js')}}"></script>
 <script type="text/javascript">
 d3.json("/reports_graph", function(data) {
-//  console.log(data);
-
 var chart = c3.generate({
-    bindto: '#dailyGraph',
-    data: {
-        columns: [
-            ['failed', 30, 30, 20, 20, 0, 0, 0, 50],
-            ['changed', 0, 100, 130, 100, 100, 200, 150, 50],
-            ['unchanged', 500, 800, 230, 200, 200, 300, 250, 250]
-        ],
-        type: 'bar',
-        groups: [
-            ['failed', 'changed', 'unchanged']
-        ],
-        colors: {
-            'failed':'#AA4643',
-            'changed':'#4572A7',
-            'unchanged':'#89A54E',
-        }
+  bindto: '#dailyGraph',
+  data: {
+    type: 'bar',
+    json: data['result'],
+    keys: {
+      x: 'datetime', // it's possible to specify 'x' when category axis
+      value: ['failed', 'changed', 'unchanged'],
+    },
+    groups: [
+      ['failed', 'changed', 'unchanged']
+    ],
+    colors: {
+      'failed':'#AA4643',
+      'changed':'#4572A7',
+      'unchanged':'#89A54E',
     }
+  },
+  size: {
+    height: 160
+  },
+  axis: {
+    x: {
+      type: 'category'
+    }
+  }
 });
+
 
 });
 </script>
