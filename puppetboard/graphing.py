@@ -3,13 +3,13 @@ from pypuppetdb.utils import UTC
 
 DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
 
-QUERY_STATUS_COUNT_ALL = '["extract", [["function","count"], "status"], '
-                         '["and", [">=","start_time","{start}"], ["<","start_time","{end}"]], '
-                         '["group_by", "status"]]'
+QUERY_STATUS_COUNT_ALL = ('["extract", [["function","count"], "status"], '
+                          '["and", [">=","start_time","{start}"], ["<","start_time","{end}"]], '
+                          '["group_by", "status"]]')
 
-QUERY_STATUS_COUNT_CERTNAME = '["extract", [["function","count"], "status"], '
-                              '["and", ["=","certname","{certname}"], [">=","start_time","{start}"], ["<","start_time","{end}"]], '
-                              '["group_by", "status"]]'
+QUERY_STATUS_COUNT_CERTNAME = ('["extract", [["function","count"], "status"], '
+                               '["and", ["=","certname","{certname}"], [">=","start_time","{start}"], ["<","start_time","{end}"]], '
+                               '["group_by", "status"]]')
 
 def _iter_dates(days_length):
     one_day = timedelta(days=1)
