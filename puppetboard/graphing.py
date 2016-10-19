@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from pypuppetdb.utils import UTC
 
+DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
 
 QUERY_STATUS_COUNT_ALL = ('["extract", [["function","count"], "status"], '
@@ -17,9 +18,9 @@ def _iter_dates(days_length):
     days_list = list(today - one_day*i for i in range(days_length + 1))
     return zip(days_list[1:], days_list)
 
-def _parse_output(datetime, output):
+def _parse_output(day, output):
     parsed = {
-        'datetime': datetime,
+        'day': day,
         'changed': 0,
         'unchanged': 0,
         'failed': 0,
@@ -41,10 +42,11 @@ def get_daily_graph_info(db, certname=None):
     else:
         query = QUERY_STATUS_COUNT_CERTNAME
     for start, end in _iter_dates(days_length=8):
+        day = start.strftime(DATE_FORMAT)
         start_json = start.strftime(DATETIME_FORMAT)
         end_json = end.strftime(DATETIME_FORMAT)
         query_info = {'start': start_json, 'end': end_json, 'certname': certname}
         output = db._query('reports', query=query.format(**query_info))
-        result.append(_parse_output(start_json, output))
+        result.append(_parse_output(day, output))
     result.reverse()
     return result

@@ -93,7 +93,7 @@ var chart = c3.generate({
     type: 'bar',
     json: data['result'],
     keys: {
-      x: 'datetime', // it's possible to specify 'x' when category axis
+      x: 'day', // it's possible to specify 'x' when category axis
       value: ['failed', 'changed', 'unchanged'],
     },
     groups: [
