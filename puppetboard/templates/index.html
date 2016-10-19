@@ -59,6 +59,9 @@
       <span>Avg. resources/node</span>
     </div>
   </div>
+  <div class="one column row">
+    <div id="dailyGraph"></div>
+  </div>
   <div class="ui divider"></div>
   <div class="one column row">
     <div class="column">
@@ -80,7 +83,23 @@
 <script src="{{url_for('static', filename='js/c3.min.js')}}"></script>
 <script type="text/javascript">
 d3.json("/reports_graph", function(data) {
-  console.log(data);
+//  console.log(data);
+
+var chart = c3.generate({
+    bindto: '#dailyGraph',
+    data: {
+        columns: [
+            ['failed', 30, 30, 20, 20, 0, 0, 0, 50],
+            ['changed', 0, 100, 130, 100, 100, 200, 150, 50],
+            ['unchanged', 500, 800, 230, 200, 200, 300, 250, 250]
+        ],
+        type: 'bar',
+        groups: [
+            ['failed', 'changed', 'unchanged']
+        ]
+    }
+});
+
 });
 </script>
 {% endblock script %}
