@@ -13,7 +13,7 @@ from itertools import tee
 from flask import (
     Flask, render_template, abort, url_for,
     Response, stream_with_context, redirect,
-    request, session
+    request, session, jsonify
 )
 
 from pypuppetdb import connect
@@ -24,6 +24,7 @@ from puppetboard.utils import (
     get_or_abort, yield_or_stop,
     jsonprint, prettyprint, Pagination
 )
+from puppetboard.graphing import get_daily_graph_info
 
 import werkzeug.exceptions as ex
 
@@ -1109,3 +1110,16 @@ def radiator(env):
         stats=stats,
         total=num_nodes
     )
+
+@app.route('/reports_graph', defaults={'env': app.config['DEFAULT_ENVIRONMENT']})
+@app.route('/<env>/reports_graph')
+def reports_graph(env):
+    # FIXME handle env
+    # envs = environments()
+    # check_env(env, envs)
+    # if env != '*':
+    #     query.add(EqualsOperator("environment", env))
+
+    certname = request.args.get('certname')
+    result = get_daily_graph_info(db=puppetdb, certname=certname)
+    return jsonify(result)
