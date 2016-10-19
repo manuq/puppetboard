@@ -46,4 +46,5 @@ def get_daily_graph_info(db, certname=None):
         query_info = {'start': start_json, 'end': end_json, 'certname': certname}
         output = db._query('reports', query=query.format(**query_info))
         result.append(_parse_output(start_json, output))
+    result.reverse()
     return result
