@@ -1122,4 +1122,4 @@ def reports_graph(env):
 
     certname = request.args.get('certname')
     result = get_daily_graph_info(db=puppetdb, certname=certname)
-    return jsonify(result)
+    return jsonify(result=result)
