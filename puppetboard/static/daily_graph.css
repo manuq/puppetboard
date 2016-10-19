@@ -1,0 +1,9 @@
+.c3-target-failed {
+  fill: #AA4643;
+}
+.c3-target-changed {
+  fill: #4572A7;
+}
+.c3-target-unchanged {
+  fill: #89A54E;
+}
