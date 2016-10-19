@@ -100,7 +100,12 @@ var chart = c3.generate({
         type: 'bar',
         groups: [
             ['failed', 'changed', 'unchanged']
-        ]
+        ],
+        colors: {
+            'failed':'#AA4643',
+            'changed':'#4572A7',
+            'unchanged':'#89A54E',
+        }
     }
 });
 
