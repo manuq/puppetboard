@@ -1121,5 +1121,9 @@ def daily_reports_chart(env):
     #     query.add(EqualsOperator("environment", env))
 
     certname = request.args.get('certname')
-    result = get_daily_reports_chart(db=puppetdb, certname=certname)
+    result = get_daily_reports_chart(
+        db=puppetdb,
+        days_number=app.config['DAILY_REPORTS_CHART_DAYS'],
+        certname=certname,
+    )
     return jsonify(result=result)

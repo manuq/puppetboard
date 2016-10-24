@@ -12,41 +12,49 @@ QUERY_STATUS_COUNT_CERTNAME = ('["extract", [["function","count"], "status"], '
                                '["and", ["=","certname","{certname}"], [">=","start_time","{start}"], ["<","start_time","{end}"]], '
                                '["group_by", "status"]]')
 
-def _iter_dates(days_length):
+def _iter_dates(days_number):
+    """Return a list of datetime pairs AB, BC, CD, ... that represent the
+       24hs time ranges of today (until this midnight) and the
+       previous days.
+    """
     one_day = timedelta(days=1)
     today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=UTC()) + one_day
-    days_list = list(today - one_day * i for i in range(days_length + 1))
+    days_list = list(today - one_day * i for i in range(days_number + 1))
     return zip(days_list[1:], days_list)
 
-def _parse_output(day, output):
-    parsed = {
-        'day': day,
-        'changed': 0,
-        'unchanged': 0,
-        'failed': 0,
-    }
-    for out in output:
+def _format_report_data(day, query_output):
+    """Format the output of the query to a simpler dict."""
+    result = {'day': day, 'changed': 0, 'unchanged': 0, 'failed': 0}
+    for out in query_output:
         if out['status'] == 'changed':
-            parsed['changed'] = out['count']
+            result['changed'] = out['count']
         elif out['status'] == 'unchanged':
-            parsed['unchanged'] = out['count']
+            result['unchanged'] = out['count']
         elif out['status'] == 'failed':
-            parsed['failed'] = out['count']
-    return parsed
+            result['failed'] = out['count']
+    return result
 
-def get_daily_reports_chart(db, certname=None):
+def get_daily_reports_chart(db, days_number, certname=None):
+    """Return the sum of each report status (changed, unchanged, failed)
+       per day, for today and the previous N days.
+
+    This information is used to present a chart.
+
+    :param days_number: How many days to sum, including today.
+    :param certname: If certname is passed, only the reports of that
+    certname will be added.  If certname is not passed, all reports in
+    the database will be considered.
+    """
     result = []
-    query = None
-    if certname is None:
-        query = QUERY_STATUS_COUNT_ALL
-    else:
-        query = QUERY_STATUS_COUNT_CERTNAME
-    for start, end in _iter_dates(days_length=8):
+    query = QUERY_STATUS_COUNT_ALL if certname is None else QUERY_STATUS_COUNT_CERTNAME
+    for start, end in _iter_dates(days_number):
         day = start.strftime(DATE_FORMAT)
-        start_json = start.strftime(DATETIME_FORMAT)
-        end_json = end.strftime(DATETIME_FORMAT)
-        query_info = {'start': start_json, 'end': end_json, 'certname': certname}
+        query_info = {
+            'start': start.strftime(DATETIME_FORMAT),
+            'end': end.strftime(DATETIME_FORMAT),
+            'certname': certname,
+        }
         output = db._query('reports', query=query.format(**query_info))
-        result.append(_parse_output(day, output))
+        result.append(_format_report_data(day, output))
     result.reverse()
     return result
