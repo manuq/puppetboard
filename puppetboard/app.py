@@ -24,7 +24,7 @@ from puppetboard.utils import (
     get_or_abort, yield_or_stop,
     jsonprint, prettyprint, Pagination
 )
-from puppetboard.graphing import get_daily_reports_chart
+from puppetboard.dailychart import get_daily_reports_chart
 
 import werkzeug.exceptions as ex
 
