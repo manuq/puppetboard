@@ -15,7 +15,7 @@ QUERY_STATUS_COUNT_CERTNAME = ('["extract", [["function","count"], "status"], '
 def _iter_dates(days_length):
     one_day = timedelta(days=1)
     today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=UTC()) + one_day
-    days_list = list(today - one_day*i for i in range(days_length + 1))
+    days_list = list(today - one_day * i for i in range(days_length + 1))
     return zip(days_list[1:], days_list)
 
 def _parse_output(day, output):
@@ -34,7 +34,7 @@ def _parse_output(day, output):
             parsed['failed'] = out['count']
     return parsed
 
-def get_daily_graph_info(db, certname=None):
+def get_daily_chart(db, certname=None):
     result = []
     query = None
     if certname is None:
