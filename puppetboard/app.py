@@ -1111,9 +1111,9 @@ def radiator(env):
         total=num_nodes
     )
 
-@app.route('/reports_graph', defaults={'env': app.config['DEFAULT_ENVIRONMENT']})
-@app.route('/<env>/reports_graph')
-def reports_graph(env):
+@app.route('/daily_reports_chart.json', defaults={'env': app.config['DEFAULT_ENVIRONMENT']})
+@app.route('/<env>/daily_reports_chart.json')
+def daily_reports_chart(env):
     # FIXME handle env
     # envs = environments()
     # check_env(env, envs)

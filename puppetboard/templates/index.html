@@ -86,7 +86,7 @@
 <script src="{{url_for('static', filename='js/d3.min.js')}}"></script>
 <script src="{{url_for('static', filename='js/c3.min.js')}}"></script>
 <script type="text/javascript">
-d3.json("/reports_graph", function(data) {
+d3.json("/daily_reports_chart.json", function(data) {
 var chart = c3.generate({
   bindto: '#dailyGraph',
   data: {
