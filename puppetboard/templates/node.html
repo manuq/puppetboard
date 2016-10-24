@@ -33,8 +33,8 @@
     <div class='row'>
       <h1>Reports</h1>
 
-  <div id="dailyGraphContainer" class="one column row">
-    <div id="dailyGraph"></div>
+  <div id="dailyReportsChartContainer" class="one column row">
+    <div id="dailyReportsChart"></div>
   </div>
   <div class="ui divider"></div>
 
@@ -54,7 +54,7 @@
 <script type="text/javascript">
 d3.json("/daily_reports_chart.json?certname={{node.name}}", function(data) {
 var chart = c3.generate({
-  bindto: '#dailyGraph',
+  bindto: '#dailyReportsChart',
   data: {
     type: 'bar',
     json: data['result'],

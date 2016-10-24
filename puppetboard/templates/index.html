@@ -63,8 +63,8 @@
       <span>Avg. resources/node</span>
     </div>
   </div>
-  <div id="dailyGraphContainer" class="one column row">
-    <div id="dailyGraph"></div>
+  <div id="dailyReportsChartContainer" class="one column row">
+    <div id="dailyReportsChart"></div>
   </div>
   <div class="ui divider"></div>
   <div class="one column row">
@@ -88,7 +88,7 @@
 <script type="text/javascript">
 d3.json("/daily_reports_chart.json", function(data) {
 var chart = c3.generate({
-  bindto: '#dailyGraph',
+  bindto: '#dailyReportsChart',
   data: {
     type: 'bar',
     json: data['result'],
