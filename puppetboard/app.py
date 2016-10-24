@@ -24,7 +24,7 @@ from puppetboard.utils import (
     get_or_abort, yield_or_stop,
     jsonprint, prettyprint, Pagination
 )
-from puppetboard.graphing import get_daily_chart
+from puppetboard.graphing import get_daily_reports_chart
 
 import werkzeug.exceptions as ex
 
@@ -1121,5 +1121,5 @@ def reports_graph(env):
     #     query.add(EqualsOperator("environment", env))
 
     certname = request.args.get('certname')
-    result = get_daily_chart(db=puppetdb, certname=certname)
+    result = get_daily_reports_chart(db=puppetdb, certname=certname)
     return jsonify(result=result)

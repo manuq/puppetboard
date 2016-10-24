@@ -34,7 +34,7 @@ def _parse_output(day, output):
             parsed['failed'] = out['count']
     return parsed
 
-def get_daily_chart(db, certname=None):
+def get_daily_reports_chart(db, certname=None):
     result = []
     query = None
     if certname is None:
