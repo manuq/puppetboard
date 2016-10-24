@@ -47,7 +47,7 @@ def get_daily_reports_chart(db, days_number, certname=None):
     """
     result = []
     query = QUERY_STATUS_COUNT_ALL if certname is None else QUERY_STATUS_COUNT_CERTNAME
-    for start, end in _iter_dates(days_number):
+    for start, end in reversed(_iter_dates(days_number)):
         day = start.strftime(DATE_FORMAT)
         query_info = {
             'start': start.strftime(DATETIME_FORMAT),
@@ -56,5 +56,4 @@ def get_daily_reports_chart(db, days_number, certname=None):
         }
         output = db._query('reports', query=query.format(**query_info))
         result.append(_format_report_data(day, output))
-    result.reverse()
     return result
