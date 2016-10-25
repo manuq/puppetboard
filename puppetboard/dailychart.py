@@ -1,25 +1,9 @@
 from datetime import datetime, timedelta
 from pypuppetdb.utils import UTC
+from pypuppetdb.QueryBuilder import *
 
 DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
-
-QUERY_STATUS_COUNT_ALL = ('["extract", [["function","count"], "status"], '
-                          '["and", '
-#                          '  ["=","environment","{env}"], '
-                          '  [">=","start_time","{start}"], '
-                          '  ["<","start_time","{end}"]'
-                          '], '
-                          '["group_by", "status"]]')
-
-QUERY_STATUS_COUNT_CERTNAME = ('["extract", [["function","count"], "status"], '
-                               '["and", '
-#                               '  ["=","environment","{env}"], '
-                               '  ["=","certname","{certname}"], '
-                               '  [">=","start_time","{start}"], '
-                               '  ["<","start_time","{end}"]'
-                               '], '
-                               '["group_by", "status"]]')
 
 def _iter_dates(days_number):
     """Return a list of datetime pairs AB, BC, CD, ... that represent the
@@ -30,6 +14,21 @@ def _iter_dates(days_number):
     today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=UTC()) + one_day
     days_list = list(today - one_day * i for i in range(days_number + 1))
     return zip(days_list[1:], days_list)
+
+def _build_query(env, start, end, certname=None):
+    query = ExtractOperator()
+    query.add_field(FunctionOperator('count'))
+    query.add_field('status')
+    subquery = AndOperator()
+    subquery.add(GreaterEqualOperator('start_time', start))
+    subquery.add(LessOperator('start_time', end))
+    if certname is not None:
+        subquery.add(EqualsOperator('certname', certname))
+    if env != '*':
+        subquery.add(EqualsOperator('environment', env))
+    query.add_query(subquery)
+    query.add_group_by("status")
+    return query
 
 def _format_report_data(day, query_output):
     """Format the output of the query to a simpler dict."""
@@ -57,15 +56,14 @@ def get_daily_reports_chart(db, env, days_number, certname=None):
     the database will be considered.
     """
     result = []
-    query = QUERY_STATUS_COUNT_ALL if certname is None else QUERY_STATUS_COUNT_CERTNAME
     for start, end in reversed(_iter_dates(days_number)):
+        query = _build_query(
+            env=env,
+            start=start.strftime(DATETIME_FORMAT),
+            end=end.strftime(DATETIME_FORMAT),
+            certname=certname,
+        )
         day = start.strftime(DATE_FORMAT)
-        query_info = {
-            'env': env,
-            'start': start.strftime(DATETIME_FORMAT),
-            'end': end.strftime(DATETIME_FORMAT),
-            'certname': certname,
-        }
-        output = db._query('reports', query=query.format(**query_info))
+        output = db._query('reports', query=query)
         result.append(_format_report_data(day, output))
     return result
