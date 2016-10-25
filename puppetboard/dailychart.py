@@ -6,7 +6,7 @@ DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
 
 QUERY_STATUS_COUNT_ALL = ('["extract", [["function","count"], "status"], '
                           '["and", '
-                          '  ["=","environment","{env}"], '
+#                          '  ["=","environment","{env}"], '
                           '  [">=","start_time","{start}"], '
                           '  ["<","start_time","{end}"]'
                           '], '
@@ -14,7 +14,7 @@ QUERY_STATUS_COUNT_ALL = ('["extract", [["function","count"], "status"], '
 
 QUERY_STATUS_COUNT_CERTNAME = ('["extract", [["function","count"], "status"], '
                                '["and", '
-                               '  ["=","environment","{env}"], '
+#                               '  ["=","environment","{env}"], '
                                '  ["=","certname","{certname}"], '
                                '  [">=","start_time","{start}"], '
                                '  ["<","start_time","{end}"]'
