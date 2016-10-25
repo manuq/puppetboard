@@ -57,10 +57,12 @@ def get_daily_reports_chart(db, env, days_number, certname=None):
     """
     result = []
     for start, end in reversed(_iter_dates(days_number)):
+        start_string = start.strftime(DATETIME_FORMAT)
+        end_string = end.strftime(DATETIME_FORMAT)
         query = _build_query(
             env=env,
-            start=start.strftime(DATETIME_FORMAT),
-            end=end.strftime(DATETIME_FORMAT),
+            start=start_string,
+            end=end_string,
             certname=certname,
         )
         day = start.strftime(DATE_FORMAT)
