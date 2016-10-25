@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from pypuppetdb.utils import UTC
-from pypuppetdb.QueryBuilder import *
+from pypuppetdb.QueryBuilder import ExtractOperator, FunctionOperator, AndOperator, GreaterEqualOperator, LessOperator, EqualsOperator
 
 DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -57,12 +57,10 @@ def get_daily_reports_chart(db, env, days_number, certname=None):
     """
     result = []
     for start, end in reversed(_iter_dates(days_number)):
-        start_string = start.strftime(DATETIME_FORMAT)
-        end_string = end.strftime(DATETIME_FORMAT)
         query = _build_query(
             env=env,
-            start=start_string,
-            end=end_string,
+            start=start.strftime(DATETIME_FORMAT),
+            end=end.strftime(DATETIME_FORMAT),
             certname=certname,
         )
         day = start.strftime(DATE_FORMAT)
