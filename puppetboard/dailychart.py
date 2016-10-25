@@ -16,6 +16,7 @@ def _iter_dates(days_number):
     return zip(days_list[1:], days_list)
 
 def _build_query(env, start, end, certname=None):
+    """Build a extract query with optional certname and environment."""
     query = ExtractOperator()
     query.add_field(FunctionOperator('count'))
     query.add_field('status')
