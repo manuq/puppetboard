@@ -12,7 +12,7 @@ jQuery(function ($) {
           type: 'bar',
           json: data['result'],
           keys: {
-            x: 'day', // it's possible to specify 'x' when category axis
+            x: 'day',
             value: ['failed', 'changed', 'unchanged'],
           },
           groups: [
