@@ -1114,15 +1114,10 @@ def radiator(env):
 @app.route('/daily_reports_chart.json', defaults={'env': app.config['DEFAULT_ENVIRONMENT']})
 @app.route('/<env>/daily_reports_chart.json')
 def daily_reports_chart(env):
-    # FIXME handle env
-    # envs = environments()
-    # check_env(env, envs)
-    # if env != '*':
-    #     query.add(EqualsOperator("environment", env))
-
     certname = request.args.get('certname')
     result = get_daily_reports_chart(
         db=puppetdb,
+        environment = env,
         days_number=app.config['DAILY_REPORTS_CHART_DAYS'],
         certname=certname,
     )

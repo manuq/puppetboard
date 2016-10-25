@@ -5,11 +5,20 @@ DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
 
 QUERY_STATUS_COUNT_ALL = ('["extract", [["function","count"], "status"], '
-                          '["and", [">=","start_time","{start}"], ["<","start_time","{end}"]], '
+                          '["and", '
+                          '  ["=","environment","{env}"], '
+                          '  [">=","start_time","{start}"], '
+                          '  ["<","start_time","{end}"]'
+                          '], '
                           '["group_by", "status"]]')
 
 QUERY_STATUS_COUNT_CERTNAME = ('["extract", [["function","count"], "status"], '
-                               '["and", ["=","certname","{certname}"], [">=","start_time","{start}"], ["<","start_time","{end}"]], '
+                               '["and", '
+                               '  ["=","environment","{env}"], '
+                               '  ["=","certname","{certname}"], '
+                               '  [">=","start_time","{start}"], '
+                               '  ["<","start_time","{end}"]'
+                               '], '
                                '["group_by", "status"]]')
 
 def _iter_dates(days_number):
@@ -34,12 +43,14 @@ def _format_report_data(day, query_output):
             result['failed'] = out['count']
     return result
 
-def get_daily_reports_chart(db, days_number, certname=None):
+def get_daily_reports_chart(db, env, days_number, certname=None):
     """Return the sum of each report status (changed, unchanged, failed)
        per day, for today and the previous N days.
 
     This information is used to present a chart.
 
+    :param db: The puppetdb.
+    :param env: Sum up the reports in this environment.
     :param days_number: How many days to sum, including today.
     :param certname: If certname is passed, only the reports of that
     certname will be added.  If certname is not passed, all reports in
@@ -50,6 +61,7 @@ def get_daily_reports_chart(db, days_number, certname=None):
     for start, end in reversed(_iter_dates(days_number)):
         day = start.strftime(DATE_FORMAT)
         query_info = {
+            'env': env,
             'start': start.strftime(DATETIME_FORMAT),
             'end': end.strftime(DATETIME_FORMAT),
             'certname': certname,
